@@ -55,7 +55,7 @@ export default function Home() {
       {/* Download Section with Modern Design */}
       <section id="download" className="relative py-24 overflow-hidden">
         {/* Background patterns and gradients */}
-        <div
+        <motion.div
           className="absolute inset-0 z-0"
           style={{
             backgroundImage:
@@ -63,10 +63,20 @@ export default function Home() {
             backgroundSize: "24px 24px",
             backgroundPositionX: "12px",
             backgroundPositionY: "12px",
-            opacity: "14%",
+            opacity: "30%",
             color: "#4f46e5",
           }}
-        ></div>
+          animate={{
+            backgroundPositionY: ["12px", "36px"],
+            backgroundPositionX: ["12px", "36px"],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 20,
+            ease: "linear",
+            repeatType: "reverse",
+          }}
+        ></motion.div>
 
         <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-purple-600/20 blur-[100px] z-0" />
         <div className="absolute bottom-0 left-1/3 w-[400px] h-[400px] rounded-full bg-blue-600/20 blur-[80px] z-0" />

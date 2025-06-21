@@ -1,5 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
+import React from "react";
+import Galaxy3D from "./Galaxy3D";
 import {
   FaChartLine,
   FaShoppingCart,
@@ -65,6 +67,49 @@ const features = [
   },
 ];
 
+// Component pour les étoiles filantes comme dans le ciel étoilé
+const ShootingStar = ({ delay = 0, duration = 1.5, size = 1, top = "30%", left = "10%" }) => {
+  // Détermine une direction aléatoire mais toujours vers le bas-droite
+  const angle = Math.random() * 20 + 20; // Entre 20 et 40 degrés
+  const angleInRadians = (angle * Math.PI) / 180;
+  
+  return (
+    <motion.div
+      className="absolute"
+      style={{
+        width: size * 50 + "px",
+        height: size + "px",
+        background: `linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)`,
+        borderRadius: "100px",
+        top: top,
+        left: left,
+        transform: `rotate(${angle}deg)`,
+        transformOrigin: "left center",
+        opacity: 0,
+        filter: "blur(0.5px)",
+      }}
+      initial={{ 
+        opacity: 0,
+        scale: 0.3
+      }}
+      animate={{
+        opacity: [0, 0.8, 0],
+        x: [0, Math.cos(angleInRadians) * 500],
+        y: [0, Math.sin(angleInRadians) * 500],
+        scale: [0.3, 1, 0.6]
+      }}
+      transition={{
+        duration: duration,
+        delay: delay,
+        repeat: Infinity,
+        repeatDelay: Math.random() * 25 + 15, // Plus long délai entre 15 et 40 secondes
+        ease: "easeInOut",
+        times: [0, 0.15, 1]
+      }}
+    />
+  );
+};
+
 const Features = () => {
   return (
     <section
@@ -100,15 +145,73 @@ const Features = () => {
       />
 
       {/* Dot pattern background */}
-      <div
+      <motion.div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage:
             "radial-gradient(circle at 1px 1px, rgba(79, 70, 229, 0.3) 1px, transparent 0)",
           backgroundSize: "24px 24px",
-          opacity: "10%",
+          backgroundPositionX: "12px",
+          backgroundPositionY: "12px",
+          opacity: "30%",
         }}
-      ></div>
+        animate={{
+          backgroundPositionY: ["12px", "36px"],
+          backgroundPositionX: ["12px", "36px"],
+        }}
+        transition={{
+          repeat: Infinity,
+          duration: 20,
+          ease: "linear",
+          repeatType: "reverse",
+        }}
+      ></motion.div>
+      
+      {/* Galaxies 3D avec champs d'étoiles - Position et couleurs bien distinctes */}
+      <Galaxy3D 
+        top="18%" 
+        left="8%" 
+        scale={0.5} 
+        stars={45} 
+        zIndex={1} 
+        opacity={0.85} 
+        sunColor="radial-gradient(circle, rgba(230, 192, 99, 0.2) 0%, rgba(214, 158, 46, 0.2) 100%)" 
+        planet1Color="rgba(99, 179, 230, 0.2)" 
+        planet2Color="rgba(230, 99, 179, 0.2)" 
+        planet3Color="rgba(140, 99, 230, 0.2)" 
+      />
+      <Galaxy3D 
+        top="58%" 
+        left="80%" 
+        scale={0.7} 
+        stars={60} 
+        zIndex={2} 
+        opacity={0.8} 
+        sunColor="radial-gradient(circle, rgba(139, 224, 249, 0.2) 0%, rgba(11, 157, 227, 0.2) 100%)" 
+        planet1Color="rgba(249, 227, 139, 0.2)" 
+        planet2Color="rgba(249, 139, 209, 0.2)" 
+        planet3Color="rgba(194, 139, 249, 0.2)" 
+      />
+      <Galaxy3D 
+        top="35%" 
+        left="50%" 
+        scale={0.4} 
+        stars={30} 
+        zIndex={3} 
+        opacity={0.9} 
+        sunColor="radial-gradient(circle, rgba(249, 209, 139, 0.2) 0%, rgba(227, 127, 11, 0.2) 100%)" 
+        planet1Color="rgba(139, 237, 250, 0.2)" 
+        planet2Color="rgba(250, 139, 187, 0.2)" 
+        planet3Color="rgba(166, 139, 250, 0.2)" 
+      />
+      
+      {/* Étoiles filantes réparties dans le ciel */}
+      <ShootingStar delay={3} size={0.7} top="15%" left="25%" duration={0.9} />
+      <ShootingStar delay={8} size={0.6} top="30%" left="60%" duration={1.1} />
+      <ShootingStar delay={14} size={0.8} top="20%" left="40%" duration={0.8} />
+      <ShootingStar delay={17} size={0.7} top="10%" left="80%" duration={1} />
+      <ShootingStar delay={22} size={0.6} top="45%" left="10%" duration={1.2} />
+      <ShootingStar delay={25} size={0.9} top="35%" left="70%" duration={0.9} />
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
